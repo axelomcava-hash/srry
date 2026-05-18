@@ -128,6 +128,79 @@
             z-index: 1000;
         }
 
+        /* Modal bloqueador */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h2 {
+            color: #d9534f;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .modal-content p {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .modal-btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-btn-continue {
+            background-color: #2ecc71;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .modal-btn-continue:hover {
+            background-color: #27ae60;
+            transform: scale(1.05);
+        }
+
         /* Responsivo para celulares */
         @media (max-width: 768px) {
             .container {
@@ -141,10 +214,24 @@
             .interactive-section {
                 padding: 30px 20px;
             }
+            .modal-content {
+                max-width: 85%;
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- MODAL BLOQUEADOR AL INTENTAR SALIR -->
+    <div class="modal-overlay" id="exit-modal">
+        <div class="modal-content">
+            <h2>¡Espera! 🥺</h2>
+            <p>No puedes irte sin responder mi pregunta...</p>
+            <p style="font-size: 14px; color: #999;">Vuelve y dame una oportunidad, por favor.</p>
+            <button class="modal-btn modal-btn-continue" onclick="closeModal()">Volver</button>
+        </div>
+    </div>
 
     <div class="container">
         <!-- LADO IZQUIERDO: TEXTO FIJO -->
@@ -152,7 +239,7 @@
             <h1>Para: Deilyn</h1>
             <p>Hola, Deilyn. Espero que estés bien.</p>
             <p>Te escribo esto porque he estado pensando mucho en lo que pasó y no quería dejar pasar más tiempo sin hablar contigo. Sé que las cosas quedaron tensas y que tu silencio es una respuesta clara a mi comportamiento. Respeto totalmente que te hayas tomado este espacio, pero para mí era fundamental pedirte una disculpa de corazón.</p>
-            <p>Me doy cuenta de que te falté al respeto, y de verdad me siento muy mal por haber actuado de esa manera. No hay excusa para cómo me comporté ni para lo que dije; debí haber sido mucho más empático, más cuidadoso con mis palabras y, sobre todo, el amigo que tú te mereces. Me duele profundamente saber que te causé un mal momento, que te hice sentir incómoda o que te ofendí, porque tú eres una persona que valoro muchísimo en mi vida. Tu amistad es algo muy importante para mí, y saber que fallé en cuidarla me pesa bastante.</p>
+            <p>Me doy cuenta de que te falté al respeto, y de verdad me siento muy mal por haber actuado de esa manera. No hay excusa para cómo me comporté ni para lo que dije; debí haber sido mucho más empático, más cuidadoso con mis palabras y, sobre todo, el amigo que tú te mereces. Me duele profundamente saber que te causé un mal momento, que te hizo sentir incómoda o que te ofendí, porque tú eres una persona que valoro muchísimo en mi vida. Tu amistad es algo muy importante para mí, y saber que fallé en cuidarla me pesa bastante.</p>
             <p>No pretendo que con esto todo se arregle de inmediato de forma mágica, ni quiero presionarte para que me respondas ya. Entiendo perfectamente por qué estás distante y estás en todo tu derecho de tomarte el tiempo que necesites para procesar las cosas. Solo quería asegurarme de que supieras que reconozco mi error, que estoy muy arrepentido y que valoro profundamente quién eres y lo que compartimos.</p>
             <p>Cuando te sientas lista, si es que en algún momento quieres hablarlo, aquí voy a estar para escucharte y pedirte disculpas en persona. Y si prefieres mantener tu distancia por ahora, también lo voy a respetar de corazón. De verdad, lo siento mucho.</p>
         </div>
@@ -172,6 +259,9 @@
     <script>
         const btnNo = document.getElementById('btn-no');
         const textQuestion = document.getElementById('text-question');
+        const exitModal = document.getElementById('exit-modal');
+        
+        let isForgiving = false;
         
         // Lista de frases que irán cambiando cada vez que intente darle al "No"
         const phrases = [
@@ -219,6 +309,7 @@
 
         // Acción cuando por fin presione "Sí"
         function forgiven() {
+            isForgiving = true;
             textQuestion.style.color = "#2ecc71";
             textQuestion.innerHTML = "¡Gracias Deilyn! ❤️ <br><span style='font-size:16px; font-weight:normal; color:#666;'>Prometo ser un mejor amigo. Hablamos cuando estés lista.</span>";
             
@@ -229,14 +320,96 @@
             btnSi.disabled = true;
             btnSi.innerText = "¡Gracias!";
             
-            // Desactivar la alerta de salida ya que perdonó
+            // Desactivar todos los bloqueadores
             window.onbeforeunload = null;
+            document.onkeydown = null;
         }
 
-        // Intento de bloquear que cambie de página o cierre la pestaña. 
-        // Nota: Los navegadores modernos muestran un cuadro de diálogo estándar y no permiten personalizar el texto por seguridad, pero sí le preguntará si está segura de querer salir.
+        // BLOQUEADOR: Evitar cerrar pestaña
         window.onbeforeunload = function() {
-            return "¡No te vayas sin perdonarme! 🥺";
+            if (!isForgiving) {
+                return "¡No te vayas sin perdonarme! 🥺";
+            }
+        };
+
+        // BLOQUEADOR: Evitar teclas de salida (Alt+F4, Ctrl+W, etc)
+        document.onkeydown = function(e) {
+            if (!isForgiving) {
+                // Alt+F4
+                if (e.altKey && e.key === 'F4') {
+                    e.preventDefault();
+                    showExitModal();
+                    return false;
+                }
+                // Ctrl+W (cerrar pestaña)
+                if (e.ctrlKey && e.key === 'w') {
+                    e.preventDefault();
+                    showExitModal();
+                    return false;
+                }
+                // Ctrl+Q (cerrar navegador en algunos navegadores)
+                if (e.ctrlKey && e.key === 'q') {
+                    e.preventDefault();
+                    showExitModal();
+                    return false;
+                }
+            }
+        };
+
+        // BLOQUEADOR: Evitar hacer click derecho y abrir DevTools
+        document.oncontextmenu = function(e) {
+            if (!isForgiving) {
+                e.preventDefault();
+                showExitModal();
+                return false;
+            }
+        };
+
+        // BLOQUEADOR: Evitar abrir DevTools con F12
+        document.onkeydown = function(e) {
+            if (!isForgiving && e.key === 'F12') {
+                e.preventDefault();
+                showExitModal();
+                return false;
+            }
+        };
+
+        // Mostrar modal bloqueador
+        function showExitModal() {
+            exitModal.classList.add('active');
+            setTimeout(() => {
+                exitModal.classList.remove('active');
+            }, 3000);
+        }
+
+        // Cerrar modal
+        function closeModal() {
+            exitModal.classList.remove('active');
+        }
+
+        // BLOQUEADOR: Deshabilitar navegación por atrás/adelante
+        window.history.pushState(null, null, window.location.href);
+        window.onpopstate = function() {
+            if (!isForgiving) {
+                window.history.pushState(null, null, window.location.href);
+                showExitModal();
+            }
+        };
+
+        // BLOQUEADOR: Prevenir arrastrar la página
+        document.ondragstart = function(e) {
+            if (!isForgiving) {
+                e.preventDefault();
+                return false;
+            }
+        };
+
+        // BLOQUEADOR: Prevenir seleccionar texto (opcional, pero dificulta copiar)
+        document.onselectstart = function(e) {
+            if (!isForgiving) {
+                e.preventDefault();
+                return false;
+            }
         };
     </script>
 </body>
