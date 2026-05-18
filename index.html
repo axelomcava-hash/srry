@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Deilyn</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #fcf8f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            overflow: hidden;
+            border: 1px solid #f0e4e4;
+        }
+
+        /* Sección del texto de disculpa */
+        .apology-section {
+            flex: 1.2;
+            padding: 40px;
+            background: #ffffff;
+            border-right: 1px solid #f0e4e4;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .apology-section h1 {
+            color: #d9534f;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .apology-section p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 16px;
+            text-align: justify;
+            white-space: pre-line;
+        }
+
+        /* Sección del juego interactivo */
+        .interactive-section {
+            flex: 0.8;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #fff9f9;
+            text-align: center;
+            position: relative;
+        }
+
+        .side-note {
+            font-size: 14px;
+            color: #999;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        .question {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 40px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100px;
+            position: relative;
+        }
+
+        button {
+            padding: 12px 35px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.1s ease, background-color 0.2s;
+        }
+
+        #btn-si {
+            background-color: #2ecc71;
+            color: white;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        #btn-si:hover {
+            background-color: #27ae60;
+            transform: scale(1.05);
+        }
+
+        #btn-no {
+            background-color: #e74c3c;
+            color: white;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            z-index: 1000;
+        }
+
+        /* Responsivo para celulares */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .apology-section {
+                max-height: 45vh;
+                border-right: none;
+                border-bottom: 1px solid #f0e4e4;
+            }
+            .interactive-section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- LADO IZQUIERDO: TEXTO FIJO -->
+        <div class="apology-section">
+            <h1>Para: Deilyn</h1>
+            <p>Hola, Deilyn. Espero que estés bien.</p>
+            <p>Te escribo esto porque he estado pensando mucho en lo que pasó y no quería dejar pasar más tiempo sin hablar contigo. Sé que las cosas quedaron tensas y que tu silencio es una respuesta clara a mi comportamiento. Respeto totalmente que te hayas tomado este espacio, pero para mí era fundamental pedirte una disculpa de corazón.</p>
+            <p>Me doy cuenta de que te falté al respeto, y de verdad me siento muy mal por haber actuado de esa manera. No hay excusa para cómo me comporté ni para lo que dije; debí haber sido mucho más empático, más cuidadoso con mis palabras y, sobre todo, el amigo que tú te mereces. Me duele profundamente saber que te causé un mal momento, que te hice sentir incómoda o que te ofendí, porque tú eres una persona que valoro muchísimo en mi vida. Tu amistad es algo muy importante para mí, y saber que fallé en cuidarla me pesa bastante.</p>
+            <p>No pretendo que con esto todo se arregle de inmediato de forma mágica, ni quiero presionarte para que me respondas ya. Entiendo perfectamente por qué estás distante y estás en todo tu derecho de tomarte el tiempo que necesites para procesar las cosas. Solo quería asegurarme de que supieras que reconozco mi error, que estoy muy arrepentido y que valoro profundamente quién eres y lo que compartimos.</p>
+            <p>Cuando te sientas lista, si es que en algún momento quieres hablarlo, aquí voy a estar para escucharte y pedirte disculpas en persona. Y si prefieres mantener tu distancia por ahora, también lo voy a respetar de corazón. De verdad, lo siento mucho.</p>
+        </div>
+
+        <!-- LADO DERECHO: INTERACTIVO -->
+        <div class="interactive-section">
+            <div class="side-note">Por ti no me molesta rogar un poquito... 🥺</div>
+            <div class="question" id="text-question">¿Me perdonas???</div>
+            
+            <div class="btn-group" id="btn-container">
+                <button id="btn-si" onclick="forgiven()">Sí</button>
+                <button id="btn-no">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const btnNo = document.getElementById('btn-no');
+        const textQuestion = document.getElementById('text-question');
+        
+        // Lista de frases que irán cambiando cada vez que intente darle al "No"
+        const phrases = [
+            "¿Por favor? 🥺",
+            "¡Ándale, di que sí! 🙏",
+            "Piénsalo un poquito...",
+            "No seas así con este humilde pecador 😢",
+            "¡Por favooor!",
+            "Te compro unos tacos si me perdonas 🌮",
+            "Ya dale al Sí, no te cuesta nada... 😂",
+            "Prometo no volver a meter la pata 🤝",
+            "¿Neta vas a seguir diciendo que no? 👀",
+            "Andaaa, ¡haz clic en el botón verde! 💚"
+        ];
+        
+        let phraseIndex = 0;
+
+        function moveButton() {
+            // Cambiar a posicionamiento fijo para que pueda moverse por TODA la pantalla si es necesario
+            btnNo.style.position = 'fixed';
+            
+            // Calcular posiciones aleatorias restando el tamaño del botón para que no se salga de la pantalla
+            const padding = 50;
+            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth - padding) + padding/2;
+            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight - padding) + padding/2;
+            
+            btnNo.style.left = `${x}px`;
+            btnNo.style.top = `${y}px`;
+            
+            // Cambiar el texto de la pregunta de forma secuencial
+            textQuestion.innerHTML = phrases[phraseIndex];
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+        }
+
+        // Eventos para que el botón huya tanto en PC (mouseover) como en celulares (touchstart/click)
+        btnNo.addEventListener('mouseover', moveButton);
+        btnNo.addEventListener('touchstart', function(e) {
+            e.preventDefault(); // Evita clics fantasma en móviles
+            moveButton();
+        });
+        btnNo.addEventListener('click', function(e) {
+            e.preventDefault();
+            moveButton();
+        });
+
+        // Acción cuando por fin presione "Sí"
+        function forgiven() {
+            textQuestion.style.color = "#2ecc71";
+            textQuestion.innerHTML = "¡Gracias Deilyn! ❤️ <br><span style='font-size:16px; font-weight:normal; color:#666;'>Prometo ser un mejor amigo. Hablamos cuando estés lista.</span>";
+            
+            // Ocultar el botón NO y dejar solo el SI estático celebrando
+            btnNo.style.display = 'none';
+            const btnSi = document.getElementById('btn-si');
+            btnSi.style.transform = "scale(1.2)";
+            btnSi.disabled = true;
+            btnSi.innerText = "¡Gracias!";
+            
+            // Desactivar la alerta de salida ya que perdonó
+            window.onbeforeunload = null;
+        }
+
+        // Intento de bloquear que cambie de página o cierre la pestaña. 
+        // Nota: Los navegadores modernos muestran un cuadro de diálogo estándar y no permiten personalizar el texto por seguridad, pero sí le preguntará si está segura de querer salir.
+        window.onbeforeunload = function() {
+            return "¡No te vayas sin perdonarme! 🥺";
+        };
+    </script>
+</body>
+</html>
